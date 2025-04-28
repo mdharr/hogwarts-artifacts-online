@@ -1,6 +1,5 @@
-package com.mdharr.hogwartsartifactsonline.exception;
+package com.mdharr.hogwartsartifactsonline.system.exception;
 
-import com.mdharr.hogwartsartifactsonline.artifact.ArtifactNotFoundException;
 import com.mdharr.hogwartsartifactsonline.system.Result;
 import com.mdharr.hogwartsartifactsonline.system.StatusCode;
 import org.springframework.http.HttpStatus;
@@ -18,8 +17,8 @@ import java.util.Map;
 @RestControllerAdvice //  marks this class as a global exception handler for REST controllers in your Spring application
 public class ExceptionHandlerAdvice {
 
-    @ExceptionHandler(ArtifactNotFoundException.class)
-    Result handleArtifactNotFoundException(ArtifactNotFoundException exception) {
+    @ExceptionHandler(ObjectNotFoundException.class)
+    Result handleObjectNotFoundException(ObjectNotFoundException exception) {
         return new Result(false, StatusCode.NOT_FOUND, exception.getMessage());
     }
 

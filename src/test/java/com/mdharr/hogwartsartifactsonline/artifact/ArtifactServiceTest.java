@@ -2,6 +2,7 @@ package com.mdharr.hogwartsartifactsonline.artifact;
 
 import com.mdharr.hogwartsartifactsonline.artifact.dto.ArtifactDto;
 import com.mdharr.hogwartsartifactsonline.artifact.utils.IdWorker;
+import com.mdharr.hogwartsartifactsonline.system.exception.ObjectNotFoundException;
 import com.mdharr.hogwartsartifactsonline.wizard.Wizard;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -63,12 +64,6 @@ class ArtifactServiceTest {
     void testFindByIdSuccess() {
 
         // Given. Arrange inputs and targets. Define the behavior of Mock object artifactRepository.
-        /*
-        "id": "1250808601744904192",
-        "name": "Invisibility Cloak",
-        "description": "An invisibility cloak is used to make the wearer invisible.",
-        "imageUrl": "ImageUrl",
-        */
 
         Artifact a = new Artifact();
         a.setId("1250808601744904192");
@@ -108,7 +103,7 @@ class ArtifactServiceTest {
 
         // Then.
         assertThat(thrown)
-                .isInstanceOf(ArtifactNotFoundException.class)
+                .isInstanceOf(ObjectNotFoundException.class)
                 .hasMessage("Could not find artifact with Id 1250808601744904192 :(");
 
         verify(artifactRepository, times(1)).findById("1250808601744904192");
@@ -191,7 +186,7 @@ class ArtifactServiceTest {
         given(artifactRepository.findById("1250808601744904192")).willReturn(Optional.empty());
 
         // When
-        assertThrows(ArtifactNotFoundException.class, () -> {
+        assertThrows(ObjectNotFoundException.class, () -> {
            artifactService.update("1250808601744904192", artifactUpdate);
         });
 
@@ -226,7 +221,7 @@ class ArtifactServiceTest {
         given(artifactRepository.findById("1250808601744904192")).willReturn(Optional.empty());
 
         // When
-        assertThrows(ArtifactNotFoundException.class, () ->
+        assertThrows(ObjectNotFoundException.class, () ->
                 artifactService.delete("1250808601744904192"));
 
         // Then
