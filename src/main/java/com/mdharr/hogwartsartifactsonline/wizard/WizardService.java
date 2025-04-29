@@ -1,5 +1,7 @@
 package com.mdharr.hogwartsartifactsonline.wizard;
 
+import com.mdharr.hogwartsartifactsonline.artifact.Artifact;
+import com.mdharr.hogwartsartifactsonline.artifact.ArtifactRepository;
 import com.mdharr.hogwartsartifactsonline.system.exception.ObjectNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -12,8 +14,11 @@ public class WizardService {
 
     private final WizardRepository wizardRepository;
 
-    public WizardService(WizardRepository wizardRepository) {
+    private final ArtifactRepository artifactRepository;
+
+    public WizardService(WizardRepository wizardRepository, ArtifactRepository artifactRepository) {
         this.wizardRepository = wizardRepository;
+        this.artifactRepository = artifactRepository;
     }
 
     public List<Wizard> findAll() {
@@ -42,5 +47,23 @@ public class WizardService {
         this.wizardRepository.findById(wizardId)
                 .orElseThrow(() -> new ObjectNotFoundException("wizard", wizardId));
         this.wizardRepository.deleteById(wizardId);
+    }
+
+    public void assignArtifact(Integer wizardId, String artifactId) {
+        // Find artifact by id from DB
+        Artifact artifactToBeAssigned = this.artifactRepository.findById(artifactId)
+                .orElseThrow(() -> new ObjectNotFoundException("artifact", artifactId));
+
+        // Find wizard by id from DB
+        Wizard wizard = this.wizardRepository.findById(wizardId)
+                .orElseThrow(() -> new ObjectNotFoundException("wizard", wizardId));
+
+        // Assign artifact
+        // We need to see if the artifact is already owned by some wizard
+        if (artifactToBeAssigned.getOwner() != null) {
+            artifactToBeAssigned.getOwner().removeArtifact(artifactToBeAssigned);
+        }
+
+        wizard.addArtifact(artifactToBeAssigned);
     }
 }
