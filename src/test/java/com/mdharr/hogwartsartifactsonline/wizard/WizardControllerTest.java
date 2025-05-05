@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false) // The addFilters flag turns off Spring Security for this Unit test.
 class WizardControllerTest {
 
     @Autowired
@@ -192,7 +192,7 @@ class WizardControllerTest {
     }
 
     @Test
-    void testDeleteArtifactErrorWithNonExistentId() throws Exception {
+    void testDeleteWizardErrorWithNonExistentId() throws Exception {
         // Given
         doThrow(new ObjectNotFoundException("wizard", 1))
                 .when(this.wizardService)
