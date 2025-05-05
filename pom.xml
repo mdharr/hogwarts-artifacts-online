@@ -101,19 +101,7 @@
 					</argLine>
 				</configuration>
 			</plugin>
-
-			<!-- Fix for 'java.lang.management' issue in IdWorker class -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.1</version>
-				<configuration>
-					<compilerArgs>
-						<arg>--add-modules</arg>
-						<arg>java.management</arg>
-					</compilerArgs>
-				</configuration>
-			</plugin>
+			
 		</plugins>
 	</build>
 
